@@ -2,7 +2,7 @@
 <p align="center"><b>Status do Projeto:</b> em andamento</p>
 
 <div align="center">
-  <img src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-06-428_512.gif" width="30%">
+  <img src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-06-428_512.gif" width="20%">
 </div>
 <br>
 
