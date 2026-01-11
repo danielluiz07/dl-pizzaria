@@ -12,6 +12,7 @@ import { validateSchema } from "./middlewares/validateSchema";
 import { createCategorySchema } from "./schemas/categorySchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
 import { CreateProductController } from "./controllers/product/CreateProductController";
+import { createProductSchema } from "./schemas/productSchema";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -48,6 +49,7 @@ router.post(
   isAuthenticated,
   isAdmin,
   upload.single('file'),
+  validateSchema(createProductSchema),
   new CreateProductController().handle
 );
 
