@@ -17,6 +17,8 @@ import {
   listProductSchema,
 } from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
+import { DeleteProductController } from "./controllers/product/DeleteProductController";
+
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -64,8 +66,14 @@ router.get(
   new ListProductController().handle
 );
 
-export { router };
+router.delete(
+  "/product",
+  isAuthenticated,
+  isAdmin,
+  new DeleteProductController().handle
+);
 
+export { router };
 
 //Arquiterura em Camadas:
 //  Routes - Controller - Service
