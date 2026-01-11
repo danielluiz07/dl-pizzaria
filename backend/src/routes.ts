@@ -3,6 +3,8 @@ import multer from "multer";
 import uploadConfig from "./config/multer";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { CreateProductController } from "./controllers/product/CreateProductController";
+import { ListProductController } from "./controllers/product/ListProductController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
@@ -10,9 +12,11 @@ import { isAdmin } from "./middlewares/isAdmin";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { validateSchema } from "./middlewares/validateSchema";
 import { createCategorySchema } from "./schemas/categorySchema";
+import {
+  createProductSchema,
+  listProductSchema,
+} from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
-import { CreateProductController } from "./controllers/product/CreateProductController";
-import { createProductSchema } from "./schemas/productSchema";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -43,17 +47,25 @@ router.post(
 
 router.get("/category", isAuthenticated, new ListCategoryController().handle);
 
-//rotas products
+// Rotas Products
 router.post(
   "/product",
   isAuthenticated,
   isAdmin,
-  upload.single('file'),
+  upload.single("file"),
   validateSchema(createProductSchema),
   new CreateProductController().handle
 );
 
+router.get(
+  "/products",
+  isAuthenticated,
+  validateSchema(listProductSchema),
+  new ListProductController().handle
+);
+
 export { router };
+
 
 //Arquiterura em Camadas:
 //  Routes - Controller - Service
