@@ -16,13 +16,14 @@ import { isAdmin } from "./middlewares/isAdmin";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { validateSchema } from "./middlewares/validateSchema";
 import { createCategorySchema } from "./schemas/categorySchema";
-import { createOrderSchema } from "./schemas/orderSchema";
+import { addItemSchema, createOrderSchema } from "./schemas/orderSchema";
 import {
   createProductSchema,
   listProductByCategorySchema,
   listProductSchema,
 } from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
+import { AddItemController } from "./controllers/order/AddItemController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -93,6 +94,10 @@ router.post(
 );
 
 router.get("/orders", isAuthenticated, new ListOrdersController().handle);
+
+
+// Adicionar Item a rotas
+router.post("/order/add", isAuthenticated, validateSchema(addItemSchema) , new AddItemController().handle)
 
 export { router };
 
