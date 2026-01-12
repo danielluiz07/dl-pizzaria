@@ -3,6 +3,8 @@ import multer from "multer";
 import uploadConfig from "./config/multer";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { CreateOrderController } from "./controllers/order/CreateOrderController";
+import { ListOrdersController } from "./controllers/order/ListOrdersController";
 import { CreateProductController } from "./controllers/product/CreateProductController";
 import { DeleteProductController } from "./controllers/product/DeleteProductController";
 import { ListProductByCategoryController } from "./controllers/product/ListProductByCategoryController";
@@ -14,6 +16,7 @@ import { isAdmin } from "./middlewares/isAdmin";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { validateSchema } from "./middlewares/validateSchema";
 import { createCategorySchema } from "./schemas/categorySchema";
+import { createOrderSchema } from "./schemas/orderSchema";
 import {
   createProductSchema,
   listProductByCategorySchema,
@@ -81,7 +84,18 @@ router.get(
   new ListProductByCategoryController().handle
 );
 
+// Rotas Order
+router.post(
+  "/order",
+  isAuthenticated,
+  validateSchema(createOrderSchema),
+  new CreateOrderController().handle
+);
+
+router.get("/orders", isAuthenticated, new ListOrdersController().handle);
+
 export { router };
+
 
 
 //Arquiterura em Camadas:
