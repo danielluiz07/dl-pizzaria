@@ -31,6 +31,7 @@ import {
   listProductSchema,
 } from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
+import { SendOrderController } from "./controllers/order/SendOrderController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -126,9 +127,9 @@ router.delete(
   new RemoveItemController().handle
 );
 
+router.put("/order/send", isAuthenticated, new SendOrderController().handle);
+
 export { router };
-
-
 
 //Arquiterura em Camadas:
 //  Routes - Controller - Service
