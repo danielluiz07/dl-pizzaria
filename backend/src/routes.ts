@@ -25,7 +25,8 @@ import {
   detailOrderSchema,
   removeItemSchema,
   sendOrderSchema,
-  finishOrderSchema
+  finishOrderSchema,
+  deleteOrderSchema
 } from "./schemas/orderSchema";
 import {
   createProductSchema,
@@ -105,7 +106,7 @@ router.post(
   new CreateOrderController().handle
 );
 
-router.delete("/order", isAuthenticated, new DeleteOrderController().handle)
+router.delete("/order", isAuthenticated, validateSchema(deleteOrderSchema) ,new DeleteOrderController().handle)
 
 router.get("/orders", isAuthenticated, new ListOrdersController().handle);
 
