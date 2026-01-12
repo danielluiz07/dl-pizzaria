@@ -3,8 +3,11 @@ import multer from "multer";
 import uploadConfig from "./config/multer";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { AddItemController } from "./controllers/order/AddItemController";
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
+import { DetailOrderController } from "./controllers/order/DetailOrderController";
 import { ListOrdersController } from "./controllers/order/ListOrdersController";
+import { RemoveItemController } from "./controllers/order/RemoveItemController";
 import { CreateProductController } from "./controllers/product/CreateProductController";
 import { DeleteProductController } from "./controllers/product/DeleteProductController";
 import { ListProductByCategoryController } from "./controllers/product/ListProductByCategoryController";
@@ -16,14 +19,18 @@ import { isAdmin } from "./middlewares/isAdmin";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { validateSchema } from "./middlewares/validateSchema";
 import { createCategorySchema } from "./schemas/categorySchema";
-import { addItemSchema, createOrderSchema } from "./schemas/orderSchema";
+import {
+  addItemSchema,
+  createOrderSchema,
+  detailOrderSchema,
+  removeItemSchema,
+} from "./schemas/orderSchema";
 import {
   createProductSchema,
   listProductByCategorySchema,
   listProductSchema,
 } from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
-import { AddItemController } from "./controllers/order/AddItemController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -95,9 +102,29 @@ router.post(
 
 router.get("/orders", isAuthenticated, new ListOrdersController().handle);
 
+// Buscar detalhes de uma order
+router.get(
+  "/order/detail",
+  isAuthenticated,
+  validateSchema(detailOrderSchema),
+  new DetailOrderController().handle
+);
 
-// Adicionar Item a rotas
-router.post("/order/add", isAuthenticated, validateSchema(addItemSchema) , new AddItemController().handle)
+// Adicionar item a order
+router.post(
+  "/order/add",
+  isAuthenticated,
+  validateSchema(addItemSchema),
+  new AddItemController().handle
+);
+
+// Remover item da order
+router.delete(
+  "/order/remove",
+  isAuthenticated,
+  validateSchema(removeItemSchema),
+  new RemoveItemController().handle
+);
 
 export { router };
 
