@@ -33,6 +33,7 @@ import {
 } from "./schemas/productSchema";
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
 import { SendOrderController } from "./controllers/order/SendOrderController";
+import { FinishOrderController } from "./controllers/order/FinishOrderController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -129,6 +130,8 @@ router.delete(
 );
 
 router.put("/order/send", isAuthenticated, validateSchema(sendOrderSchema) ,new SendOrderController().handle);
+
+router.put("/order/finish", isAuthenticated, new FinishOrderController().handle)
 
 export { router };
 
