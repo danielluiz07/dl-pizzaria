@@ -35,6 +35,7 @@ import {
 import { authUserSchema, createUserSchema } from "./schemas/userSchema";
 import { SendOrderController } from "./controllers/order/SendOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
+import { DeleteOrderController } from "./controllers/order/DeleteOrderController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -104,6 +105,8 @@ router.post(
   new CreateOrderController().handle
 );
 
+router.delete("/order", isAuthenticated, new DeleteOrderController().handle)
+
 router.get("/orders", isAuthenticated, new ListOrdersController().handle);
 
 // Buscar detalhes de uma order
@@ -133,6 +136,8 @@ router.delete(
 router.put("/order/send", isAuthenticated, validateSchema(sendOrderSchema) ,new SendOrderController().handle);
 
 router.put("/order/finish", isAuthenticated, validateSchema(finishOrderSchema) ,new FinishOrderController().handle)
+
+
 
 export { router };
 
